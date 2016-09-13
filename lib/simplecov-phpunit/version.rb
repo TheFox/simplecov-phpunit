@@ -4,7 +4,7 @@ module SimpleCov
 		
 		module PHPUnitFormatter
 			
-			VERSION = '0.1.0'
+			VERSION = '0.2.0-dev'
 			DATE = '2016-09-13'
 			HOMEPAGE = 'https://github.com/TheFox/simplecov-phpunit'
 			

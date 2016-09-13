@@ -21,6 +21,7 @@ module SimpleCov
 			end
 			
 			def format(result)
+				puts
 				puts "write coverage for '#{@base_dir_path}'"
 				
 				total_status = status_by_percent(result.files.covered_percent)
@@ -246,6 +247,9 @@ module SimpleCov
 })
 				
 				@index_html_file.close
+				
+				puts 'done'
+				puts
 			end
 			
 			private
