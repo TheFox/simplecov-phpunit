@@ -1,0 +1,5 @@
+/.bundle/
+.setup
+Gemfile.lock
+/releases/
+*.html
