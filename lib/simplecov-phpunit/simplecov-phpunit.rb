@@ -13,7 +13,7 @@ module SimpleCov
 				@coverage_dir_path = "#{@base_dir_path}/coverage"
 				@index_html_file = File.open("#{@coverage_dir_path}/index.html", 'wb')
 				
-				@version_html = %{<a href="https://github.com/TheFox/simplecov-phpunit">SimpleCov PHPUnit Formatter #{VERSION}</a>}
+				@version_html = %{<a href="https://github.com/TheFox/simplecov-phpunit">SimpleCov PHPUnit Formatter #{PHPUnitFormatter::VERSION}</a>}
 				@ruby_version_html = %{<a href="https://www.ruby-lang.org/en/">Ruby #{RUBY_VERSION}</a>}
 				
 				simplecov_version = Gem.latest_spec_for('simplecov').version.to_s
