@@ -1,5 +1,6 @@
 
 require 'simplecov'
+require 'fileutils'
 
 module SimpleCov
 	module Formatter
@@ -10,8 +11,8 @@ module SimpleCov
 				super()
 				
 				@base_dir_path = Dir.pwd
-				@coverage_dir_path = "#{@base_dir_path}/coverage"
-				@index_html_file = File.open("#{@coverage_dir_path}/index.html", 'wb')
+				@coverage_dir_path = File.expand_path('coverage', @base_dir_path)
+				@index_html_file = File.open(File.expand_path('index.html', @coverage_dir_path), 'wb')
 				
 				simplecov_phpunit_version = Gem::Specification.find_by_name('simplecov-phpunit').version.to_s
 				@version_html = %{<a href="https://github.com/TheFox/simplecov-phpunit">SimpleCov PHPUnit Formatter #{simplecov_phpunit_version}</a>}
@@ -19,6 +20,11 @@ module SimpleCov
 				
 				simplecov_version = Gem::Specification.find_by_name('simplecov').version.to_s
 				@simplecov_version_html = %{<a href="https://github.com/colszowka/simplecov">SimpleCov #{simplecov_version}</a>}
+				
+				full_gem_path = Gem::Specification.find_by_name('simplecov-phpunit').full_gem_path
+				assets_src_path = File.expand_path('assets', full_gem_path)
+				assets_dst_path = File.expand_path('_assets', @coverage_dir_path)
+				FileUtils.cp_r(assets_src_path, assets_dst_path)
 			end
 			
 			def format(result)
@@ -39,10 +45,6 @@ module SimpleCov
 		<link href="_assets/css/bootstrap.min.css" rel="stylesheet">
 		<link href="_assets/css/style.css" rel="stylesheet">
 		
-		<!--[if lt IE 9]>
-		<script src="_assets/js/html5shiv.min.js"></script>
-		<script src="_assets/js/respond.min.js"></script>
-		<![endif]-->
 	</head>
 	<div class="container">
 		<table class="table table-bordered">
@@ -111,10 +113,6 @@ module SimpleCov
 		<link href="_assets/css/bootstrap.min.css" rel="stylesheet">
 		<link href="_assets/css/style.css" rel="stylesheet">
 		
-		<!--[if lt IE 9]>
-		<script src="_assets/js/html5shiv.min.js"></script>
-		<script src="_assets/js/respond.min.js"></script>
-		<![endif]-->
 	</head>
 	<body>
 		<header>
@@ -194,31 +192,7 @@ module SimpleCov
 
 		<script src="_assets/js/jquery.min.js" type="text/javascript"></script>
 		<script src="_assets/js/bootstrap.min.js" type="text/javascript"></script>
-		<script src="_assets/js/holder.min.js" type="text/javascript"></script>
-		<script type="text/javascript">
-			$(function(){
-				var $window   = $(window)
-				, $top_link = $('#toplink')
-				, $body     = $('body, html')
-				, offset    = $('#code').offset().top;
-
-				$top_link.hide().click(function(event){
-					event.preventDefault();
-					$body.animate({scrollTop:0}, 800);
-				});
-				
-				$window.scroll(function(){
-					if($window.scrollTop() > offset){
-						$top_link.fadeIn();
-					}
-					else{
-						$top_link.fadeOut();
-					}
-				}).scroll();
-				
-				$('.popin').popover({trigger: 'hover'});
-			});
-		</script>
+		
 	</body>
 </html>
 })
@@ -241,9 +215,10 @@ module SimpleCov
 			</p>
 		</footer>
 	</div>
+	
 	<script src="_assets/js/jquery.min.js" type="text/javascript"></script>
 	<script src="_assets/js/bootstrap.min.js" type="text/javascript"></script>
-	<script src="_assets/js/holder.min.js" type="text/javascript"></script>
+	
 </html>
 })
 				
