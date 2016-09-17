@@ -1,6 +1,7 @@
 
 require 'simplecov'
 require 'fileutils'
+require 'cgi'
 
 module SimpleCov
 	module Formatter
@@ -141,7 +142,7 @@ module SimpleCov
 				</thead>
 				<tbody>
 					<tr>
-						<td class="#{file_status}">Total</td>
+						<td class="#{file_status}">Covered</td>
 						<td class="#{file_status} big">
 							<div class="progress">
 								<div class="progress-bar progress-bar-#{file_status}" role="progressbar" aria-valuenow="#{file_percent_f}" aria-valuemin="0" aria-valuemax="100" style="width: #{file_percent_f}%">
@@ -161,16 +162,21 @@ module SimpleCov
 					file.lines.each do |line|
 						# puts "  line #{line.line_number} #{line.coverage} #{line.status} #{line.src}"
 						
+						line_coverage = line.coverage ? line.coverage : ''
+						line_src = CGI.escapeHTML(line.src.chomp)
+						
+						@html_file.write(%{<tr})
+						
 						if line.covered?
-							@html_file.write(%{<tr class="covered-by-large-tests"><td><div align="right"><a name="#{line.line_number}"></a><a href="##{line.line_number}">#{line.line_number}</a></div></td><td class="codeLine"><span class="default">#{line.src}</span></td></tr>})
+							@html_file.write(%{ class="covered-by-large-tests"})
 						elsif line.missed?
-							@html_file.write(%{<tr class="danger"><td><div align="right"><a name="#{line.line_number}"></a><a href="##{line.line_number}">#{line.line_number}</a></div></td><td class="codeLine"><span class="default">#{line.src}</span></td></tr>})
+							@html_file.write(%{ class="danger"})
 						elsif line.skipped?
-							@html_file.write(%{<tr class="warning"><td><div align="right"><a name="#{line.line_number}"></a><a href="##{line.line_number}">#{line.line_number}</a></div></td><td class="codeLine"><span class="default">#{line.src}</span></td></tr>})
+							@html_file.write(%{ class="warning"})
 						else
-							@html_file.write(%{<tr><td><div align="right"><a name="#{line.line_number}"></a><a href="##{line.line_number}">#{line.line_number}</a></div></td><td class="codeLine"><span class="default">#{line.src}</span></td></tr>})
 						end
 						
+						@html_file.write(%{><td><div align="right"><a name="#{line.line_number}"></a><a href="##{line.line_number}">#{line.line_number}</a></div></td><td><div align="left">#{line_coverage}</div></td><td class="codeLine"><span class="default">#{line_src}</span></td></tr>})
 					end
 					
 					@html_file.write(%{

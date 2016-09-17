@@ -30,7 +30,7 @@ or via `.gemspec`:
 
 ## Project Links
 
-- [Gem](https://rubygems.org/gems/simplecov-phpunit)
+- [SimpleCov PHPUnit Formatter Gem](https://rubygems.org/gems/simplecov-phpunit)
 - [Travis CI Repository](https://travis-ci.org/TheFox/simplecov-phpunit)
 
 ## Weblinks
