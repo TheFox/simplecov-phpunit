@@ -16,11 +16,10 @@ module SimpleCov
 				assets_dst_path = File.expand_path('_assets', @coverage_dir_path)
 				
 				
-				
 				simplecov_phpunit_gem = Gem::Specification.find_by_name('simplecov-phpunit')
 				assets_src_path = File.expand_path('assets', simplecov_phpunit_gem.full_gem_path)
 				@simplecov_phpunit_version_html = %(<a href="https://github.com/TheFox/simplecov-phpunit">SimpleCov PHPUnit Formatter #{simplecov_phpunit_gem.version}</a>)
-				@ruby_version_html = %(<a href="https://www.ruby-lang.org/en/">Ruby #{RUBY_VERSION}</a>)
+				@ruby_version_html = %(<a href="https://www.ruby-lang.org/en/">Ruby #{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}</a>)
 				
 				simplecov_gem = Gem::Specification.find_by_name('simplecov')
 				@simplecov_version_html = %(<a href="https://github.com/colszowka/simplecov">SimpleCov #{simplecov_gem.version}</a>)
