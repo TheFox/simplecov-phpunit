@@ -15,19 +15,23 @@ module SimpleCov
 				@coverage_dir_path = File.expand_path('coverage', @base_dir_path)
 				assets_dst_path = File.expand_path('_assets', @coverage_dir_path)
 				
-				
-				simplecov_phpunit_gem = Gem::Specification.find_by_name('simplecov-phpunit')
-				assets_src_path = File.expand_path('assets', simplecov_phpunit_gem.full_gem_path)
-				@simplecov_phpunit_version_html = %(<a href="https://github.com/TheFox/simplecov-phpunit">SimpleCov PHPUnit Formatter #{simplecov_phpunit_gem.version}</a>)
 				@ruby_version_html = %(<a href="https://www.ruby-lang.org/en/">Ruby #{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}</a>)
 				
+				@simplecov_version_html = %(<a href="https://github.com/colszowka/simplecov">SimpleCov</a>)
 				simplecov_gem = Gem::Specification.find_by_name('simplecov')
-				@simplecov_version_html = %(<a href="https://github.com/colszowka/simplecov">SimpleCov #{simplecov_gem.version}</a>)
+				if simplecov_gem
+					@simplecov_version_html = %(<a href="https://github.com/colszowka/simplecov">SimpleCov #{simplecov_gem.version}</a>)
+				end
 				
-				
-				FileUtils.rm_rf(assets_dst_path)
-				FileUtils.cp_r(assets_src_path, assets_dst_path)
-				
+				@simplecov_phpunit_version_html = %(<a href="https://github.com/TheFox/simplecov-phpunit">SimpleCov PHPUnit Formatter</a>)
+				simplecov_phpunit_gem = Gem::Specification.find_by_name('simplecov-phpunit')
+				if simplecov_phpunit_gem
+					@simplecov_phpunit_version_html = %(<a href="https://github.com/TheFox/simplecov-phpunit">SimpleCov PHPUnit Formatter #{simplecov_phpunit_gem.version}</a>)
+					
+					assets_src_path = File.expand_path('assets', simplecov_phpunit_gem.full_gem_path)
+					FileUtils.rm_rf(assets_dst_path)
+					FileUtils.cp_r(assets_src_path, assets_dst_path)
+				end
 				
 				@bootstrap_css_html = %(<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">)
 				
