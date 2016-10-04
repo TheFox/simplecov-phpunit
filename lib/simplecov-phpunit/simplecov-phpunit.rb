@@ -38,7 +38,7 @@ module SimpleCov
 				@style_css_href = '_assets/style.css'
 				@style_css_html = %(<link href="#{@style_css_href}" rel="stylesheet" />)
 				
-				@jquery_js_html = %(<script src="http://code.jquery.com/jquery-1.12.4.min.js" crossorigin="anonymous"></script>)
+				@jquery_js_html = %(<script src="https://code.jquery.com/jquery-1.12.4.min.js" crossorigin="anonymous"></script>)
 				
 				@bootstrap_js_html = %(<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>)
 			end
