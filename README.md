@@ -13,12 +13,12 @@ https://rubygems.org/gems/simplecov-phpunit
 
 or via `Gemfile`:
 
-	gem 'simplecov-phpunit', '~>0.4'
+	gem 'simplecov-phpunit', '~>1.0'
 
 or via `.gemspec`:
 
 	spec.add_development_dependency 'simplecov', '~>0.12'
-	spec.add_development_dependency 'simplecov-phpunit', '~>0.4'
+	spec.add_development_dependency 'simplecov-phpunit', '~>1.0'
 
 ## Usage
 
