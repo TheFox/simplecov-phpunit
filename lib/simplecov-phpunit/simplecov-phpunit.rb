@@ -2,6 +2,7 @@
 require 'simplecov'
 require 'fileutils'
 require 'cgi'
+require 'pathname'
 
 module SimpleCov
 	module Formatter
@@ -11,9 +12,9 @@ module SimpleCov
 			def initialize
 				super()
 				
-				@base_dir_path = Dir.pwd
-				@coverage_dir_path = File.expand_path('coverage', @base_dir_path)
-				assets_dst_path = File.expand_path('_assets', @coverage_dir_path)
+				@base_dir_path = Pathname.new(Dir.pwd)
+				@coverage_dir_path = Pathname.new('coverage').expand_path(@base_dir_path)
+				assets_dst_path = Pathname.new('_assets').expand_path(@coverage_dir_path)
 				
 				@ruby_version_html = %(<a href="https://www.ruby-lang.org/en/">Ruby #{RUBY_VERSION}-p#{RUBY_PATCHLEVEL}</a>)
 				
@@ -28,8 +29,12 @@ module SimpleCov
 				if simplecov_phpunit_gem
 					@simplecov_phpunit_version_html = %(<a href="https://github.com/TheFox/simplecov-phpunit">SimpleCov PHPUnit Formatter #{simplecov_phpunit_gem.version}</a>)
 					
-					assets_src_path = File.expand_path('assets', simplecov_phpunit_gem.full_gem_path)
-					FileUtils.rm_rf(assets_dst_path)
+					simplecov_full_gem_path = Pathname.new(simplecov_phpunit_gem.full_gem_path)
+					
+					assets_src_path = Pathname.new('assets').expand_path(simplecov_full_gem_path)
+					if assets_dst_path.exist?
+						assets_dst_path.rmtree
+					end
 					FileUtils.cp_r(assets_src_path, assets_dst_path)
 				end
 				
@@ -91,12 +96,15 @@ module SimpleCov
 					EOHTML
 				
 				result.files.each do |file|
-					relative_file_path = file.filename[@base_dir_path.size.next..-1]
-					# file_name = File.basename(file.filename)
-					html_file_path =
+					file_path = Pathname.new(file.filename)
+					relative_file_path = file_path.relative_path_from(@base_dir_path)
+					relative_html_file_path = Pathname.new(
 						relative_file_path
+						.to_s
 						.split('/')
-						.join('_') + '.html'
+						.join('_') << '.html'
+					)
+					absolute_html_file_path = relative_html_file_path.expand_path(@coverage_dir_path)
 					
 					puts "write coverage '#{relative_file_path}'"
 					
@@ -105,7 +113,7 @@ module SimpleCov
 					
 					index_html << <<-EOHTML
 						<tr>
-							<td class="#{file_status}"><span class="glyphicon glyphicon-file"></span> <a href="#{html_file_path}">#{relative_file_path}</a></td>
+							<td class="#{file_status}"><span class="glyphicon glyphicon-file"></span> <a href="#{relative_html_file_path}">#{relative_file_path}</a></td>
 							<td class="#{file_status} big">
 								<div class="progress">
 									<div class="progress-bar progress-bar-#{file_status}" role="progressbar" aria-valuenow="100.00" aria-valuemin="0" aria-valuemax="100" style="width: #{file_percent_f}%">
@@ -177,8 +185,6 @@ module SimpleCov
 						EOHTML
 					
 					file.lines.each do |line|
-						# puts "  line #{line.line_number} #{line.coverage} #{line.status} #{line.src}"
-						
 						line_coverage = line.coverage ? line.coverage : ''
 						line_src = CGI.escapeHTML(line.src.chomp)
 						
@@ -219,7 +225,7 @@ module SimpleCov
 						</html>
 						EOHTML
 					
-					html_file = File.open("#{@coverage_dir_path}/#{html_file_path}", 'wb')
+					html_file = File.open(absolute_html_file_path, 'wb')
 					html_file.write(html.gsub(/^\t{6}/, ''))
 					html_file.close
 				end
@@ -246,7 +252,8 @@ module SimpleCov
 					</html>
 					EOHTML
 				
-				index_html_file = File.open(File.expand_path('index.html', @coverage_dir_path), 'wb')
+				index_html_file_path = Pathname.new('index.html').expand_path(@coverage_dir_path)
+				index_html_file = File.open(index_html_file_path, 'wb')
 				index_html_file.write(index_html.gsub(/^\t{5}/, ''))
 				index_html_file.close
 				
