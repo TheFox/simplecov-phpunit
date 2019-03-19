@@ -9,24 +9,32 @@ This [SimpleCov](https://www.ruby-toolbox.com/projects/simplecov)-plugin generat
 The preferred method of installation is via RubyGems.org:
 https://rubygems.org/gems/simplecov-phpunit
 
-	gem install simplecov-phpunit
+```bash
+gem install simplecov-phpunit
+```
 
 or via `Gemfile`:
 
-	gem 'simplecov-phpunit', '~>1.0'
+```bash
+gem 'simplecov-phpunit', '~>1.0'
+```
 
 or via `.gemspec`:
 
-	spec.add_development_dependency 'simplecov', '~>0.12'
-	spec.add_development_dependency 'simplecov-phpunit', '~>1.0'
+```ruby
+spec.add_development_dependency 'simplecov', '~>0.12'
+spec.add_development_dependency 'simplecov-phpunit', '~>1.0'
+```
 
 ## Usage
 
-	require 'simplecov'
-	require 'simplecov-phpunit'
-	
-	SimpleCov.formatter = SimpleCov::Formatter::PHPUnit
-	SimpleCov.start
+```ruby
+require 'simplecov'
+require 'simplecov-phpunit'
+
+SimpleCov.formatter = SimpleCov::Formatter::PHPUnit
+SimpleCov.start
+```
 
 ## Project Links
 
