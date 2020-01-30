@@ -46,7 +46,6 @@ SimpleCov.start
 ## Project Links
 
 - [SimpleCov PHPUnit Formatter Gem](https://rubygems.org/gems/simplecov-phpunit)
-- [Travis CI Repository](https://travis-ci.org/TheFox/simplecov-phpunit)
 
 ## Weblinks
 
