@@ -15,7 +15,7 @@ Gem::Specification.new do |spec|
 	spec.summary       = %q{SimpleCov PHPUnit Formatter}
 	spec.description   = %q{PHPUnit-like HTML Formatter for SimpleCov.}
 	spec.homepage      = SimpleCov::Formatter::PHPUnitFormatter::HOMEPAGE
-	spec.license       = 'GPL-3.0'
+	spec.license       = 'MIT'
 	
 	spec.files         = `git ls-files -z`.split("\x0").reject{ |f| f.match(%r{^(test|spec|features)/}) }
 	spec.require_paths = ['lib']
